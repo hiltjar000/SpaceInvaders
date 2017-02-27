@@ -1,13 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
  * Created by Jared H on 2/27/2017.
  */
-public class Game extends JPanel implements ActionListener{
+public class Game extends JPanel implements ActionListener, KeyListener{
     Timer timer;
     ArrayList<Entity> entities;
 
@@ -21,6 +20,7 @@ public class Game extends JPanel implements ActionListener{
         frame.add(this);
         frame.pack();
         frame.setLocationRelativeTo(null);
+        frame.addKeyListener(this);
     }
     public static void main(String[] args) {
         Game game = new Game();
@@ -35,9 +35,11 @@ public class Game extends JPanel implements ActionListener{
     }
     public void run(){
         timer = new Timer(1000/60, this);
+        timer.start();
     }
 
     public void actionPerformed(ActionEvent e) {
+        entities.get(0).move();
         repaint();
     }
 
@@ -50,4 +52,25 @@ public class Game extends JPanel implements ActionListener{
             }
         }
     }
+
+
+    public void keyTyped(KeyEvent e){}
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_SPACE){Stats.setSpacePressed(true);}
+        if(e.getKeyCode() == KeyEvent.VK_W){Stats.setwPressed(true);}
+        if(e.getKeyCode() == KeyEvent.VK_A){Stats.setaPressed(true);}
+        if(e.getKeyCode() == KeyEvent.VK_S){Stats.setsPressed(true);}
+        if(e.getKeyCode() == KeyEvent.VK_D){Stats.setdPressed(true);}
+    }
+    public void keyReleased(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_SPACE){Stats.setSpacePressed(false);}
+        if(e.getKeyCode() == KeyEvent.VK_P){Stats.setpPressed(false);}
+        if(e.getKeyCode() == KeyEvent.VK_W){Stats.setwPressed(false);}
+        if(e.getKeyCode() == KeyEvent.VK_A){Stats.setaPressed(false);}
+        if(e.getKeyCode() == KeyEvent.VK_S){Stats.setsPressed(false);}
+        if(e.getKeyCode() == KeyEvent.VK_D){Stats.setdPressed(false);}
+    }
+
+
+
 }

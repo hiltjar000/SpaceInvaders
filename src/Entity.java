@@ -5,10 +5,9 @@ import java.awt.*;
  */
 public abstract class Entity {
 
-    private Game game;
-    private Color color;
-    private int x, y, w, h;
-    private double angle;
+    protected Game game;
+    protected Color color;
+    protected int x, y, w, h, dx, dy;
 
     public Entity(Color color, int x, int y, int w, int h, Game game) {
         this.game = game;
@@ -17,16 +16,24 @@ public abstract class Entity {
         this.y = y;
         this.w = w;
         this.h = h;
+
+    }
+
+    public void move(){
+        double nextLeft = x + dx;
+        double nextRight = x + w + dx;
+        double nextTop = y + dy;
+        double nextBottom = y + h+ dy;
+
+        if(nextTop <=0 || nextBottom > game.getHeight()) {
+            dy *= -1;
+        }
+        if (nextLeft <= 0 || nextRight > game.getWidth()) {
+            dx*=-1;
+        }
+        x+=dx;
+        y+=dy;
     }
 
     public abstract void paint(Graphics g);
-
-    public int getX() {return x;}
-    public void setX(int x) {this.x = x;}
-    public int getY() {return y;}
-    public void setY(int y) {this.y = y;}
-    public int getW() {return w;}
-    public void setW(int w) {this.w = w;}
-    public int getH() {return h;}
-    public void setH(int h) {this.h = h;}
 }
