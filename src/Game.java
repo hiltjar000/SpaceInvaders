@@ -3,7 +3,7 @@
  */
 public class Game {
     public static void main(String[] args){
-        System.out.println("Help");
+        System.out.println("Hello");
 
     }
 }
