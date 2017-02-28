@@ -3,7 +3,7 @@
  */
 public class Stats {
     public static boolean menu = true, game = false, pause = false;
-    public static boolean spacePressed = false, pPressed = false, wPressed = false, aPressed = false, sPressed = false, dPressed = false;
+    public static boolean spacePressed = false, pPressed = false, wPressed = false, aPressed = false, sPressed = false, dPressed = false, pReleased = false;
 
     public static boolean isMenu() {return menu;}
     public static void setMenu(boolean menu) {Stats.menu = menu;}
@@ -36,4 +36,6 @@ public class Stats {
     public static void setsPressed(boolean sPressed) {Stats.sPressed = sPressed;}
     public static boolean isdPressed() {return dPressed;}
     public static void setdPressed(boolean dPressed) {Stats.dPressed = dPressed;}
+    public static boolean ispReleased() {return pReleased;}
+    public static void setpReleased(boolean pReleased) {Stats.pReleased = pReleased;}
 }

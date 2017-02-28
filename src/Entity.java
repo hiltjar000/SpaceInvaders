@@ -19,21 +19,7 @@ public abstract class Entity {
 
     }
 
-    public void move(){
-        double nextLeft = x + dx;
-        double nextRight = x + w + dx;
-        double nextTop = y + dy;
-        double nextBottom = y + h+ dy;
-
-        if(nextTop <=0 || nextBottom > game.getHeight()) {
-            dy *= -1;
-        }
-        if (nextLeft <= 0 || nextRight > game.getWidth()) {
-            dx*=-1;
-        }
-        x+=dx;
-        y+=dy;
-    }
+    public abstract void move();
 
     public abstract void paint(Graphics g);
 }
