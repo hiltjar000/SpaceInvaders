@@ -70,6 +70,10 @@ public class Game extends JPanel implements ActionListener, KeyListener{
         if(e.getKeyCode() == KeyEvent.VK_S){Stats.setsPressed(false);}
         if(e.getKeyCode() == KeyEvent.VK_D){Stats.setdPressed(false);}
     }
+    
+    public ArrayList<Entity> getEntities(){
+        return entities;
+    }
 
 
 
