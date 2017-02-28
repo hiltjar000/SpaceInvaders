@@ -24,11 +24,23 @@ public class Player extends Entity{
         double nextTop = y + dy;
         double nextBottom = y + h+ dy;
 
-
-        if (Stats.iswPressed()){dy = -speed;}
-        else if (Stats.issPressed()){dy = speed;}
-        else{dy = 0;}
-
+        
+        if (nextUp >=0){
+            if(iswPressed()){
+                dy = -speed;
+            }
+        }else{dy = 0;}
+        
+        if (nextDown <= game.getHeight()){
+            if(Stats..issPressed()){
+                dy = speed;
+            }
+        }else{dy = 0;}
+        
+        if(!Stats.iswPressed() && !Stats.issPressed()){
+            dy = 0;
+        }
+        
         if (nextLeft >= 0) {
             if (Stats.isaPressed()) {
 
@@ -36,7 +48,7 @@ public class Player extends Entity{
             }
         }
         else{dx = 0;}
-
+        
         if (nextRight <=game.getWidth()) {
             if (Stats.isdPressed()) {
                 dx = speed;
