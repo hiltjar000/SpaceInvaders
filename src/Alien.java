@@ -7,11 +7,13 @@ public class Alien extends Entity{
 
     public Alien(Color color, int x, int y, int d, Game game){
         super(color, x, y, d, d, game);
+        dx = 5;
+        dy = 0;
     }
 
     public void paint(Graphics g){
-        g.setColor(Color.GREEN);
-        g.drawOval(x, y, w, h);
+        g.setColor(color);
+        g.fillOval(x, y, w, h);
 
     }
     public void move(){
@@ -22,10 +24,10 @@ public class Alien extends Entity{
 
 
         if (nextLeft <= 1 || nextRight > game.getWidth()) {
-            dy*=-1;
+            dx*=-1;
+            y +=6;
         }
         x+=dx;
-        y+=dy;
 
 
     }

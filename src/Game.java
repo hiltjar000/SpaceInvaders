@@ -31,7 +31,13 @@ public class Game extends JPanel implements ActionListener, KeyListener{
 
     private void init(){
         entities = new ArrayList<Entity>();
-        entities.add(new Player(Color.GREEN, getWidth()/2, getHeight()*3/4, 40, 40, this));
+        entities.add(new Player(Color.BLUE, getWidth()/2, getHeight()*3/4, 40, 40, this));
+
+        for (int i = 0; i < 4; i++){
+            for (int j = 0; j < 7; j++){
+                entities.add(new Alien(Color.GREEN, (int) (getWidth()/5.5+getWidth()/16*(1.5*j) + 20), getHeight()/10+getHeight()/12*i, 40, this));
+            }
+        }
     }
     private void run(){
         timer = new Timer(1000/60, this);
