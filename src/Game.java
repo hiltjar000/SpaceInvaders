@@ -29,11 +29,11 @@ public class Game extends JPanel implements ActionListener, KeyListener{
 
     }
 
-    public void init(){
+    private void init(){
         entities = new ArrayList<Entity>();
         entities.add(new Player(Color.GREEN, getWidth()/2, getHeight()*3/4, 40, 40, this));
     }
-    public void run(){
+    private void run(){
         timer = new Timer(1000/60, this);
         timer.start();
     }
