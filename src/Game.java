@@ -85,7 +85,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
                 if(mouseClicked){
                     mouseClicked = false;
                     System.out.println(entities.get(0).getReloaded());
-                    if (entities.get(0).getReloaded() == true) {
+                    if (entities.get(0).getReloaded()) {
                         entities.get(0).reload();
                         entities.add(new Bullet(entities.get(0).getX() + entities.get(0).getW() / 2 - Bullet.getWid() / 2, entities.get(0).getY(), this));
 
@@ -105,7 +105,9 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
                 if (entities.get(i) instanceof Bullet){
                     if (entities.get(j) instanceof Alien){
                         entities.remove(i);
-                        entities
+                        entities..remove(j);
+                        i--;
+                        j--;
                     }
                 }
             }
@@ -126,7 +128,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
             printSimpleString("Space Invaders", 0, getWidth()/2, getHeight()/3, g);
             g.setColor(Color.WHITE);
             g.setFont(new Font("Times New Roman", Font.BOLD, TEXT_SIZE));
-            printSimpleString("Press 'space' to fire", 0, getWidth()/2, getHeight()/3+TITLE_SIZE*3/4, g);
+            printSimpleString("Click to fire", 0, getWidth()/2, getHeight()/3+TITLE_SIZE*3/4, g);
             g.setColor(Color.PINK);
             printSimpleString("Press 'space' to start", 0, getWidth()/2, getHeight()/3 + TITLE_SIZE*3/2, g);
         }
