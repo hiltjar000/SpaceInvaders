@@ -7,7 +7,7 @@ public class Bullet extends Entity{
     public static final int wid = 10, height = 30;
 
     public Bullet( int x, int y, Game game) {
-        super(Color.white, x, y, wid, height, game);
+        super(Color.ORANGE, x, y, wid, height, game);
 
         dx = 0;
         dy = -4;
