@@ -12,7 +12,7 @@ public abstract class Entity implements ActionListener{
     protected Color color;
     protected int x, y, w, h, dx, dy;
     Timer reload = new Timer(750, this);;
-    Boolean reloaded;
+    protected Boolean reloaded, shot = false;
 
     public Entity(Color color, int x, int y, int w, int h, Game game) {
         this.game = game;
@@ -34,13 +34,21 @@ public abstract class Entity implements ActionListener{
         reload.start();
     }
 
+
+
     public void actionPerformed(ActionEvent e){
         reloaded = true;
         reload.stop();
     }
 
-
+    public Rectangle getBounds(){
+        return new Rectangle(x, y, w, h);
+    }
     public abstract void paint(Graphics g);
+
+    public Boolean getShot() {return shot;}
+    public void setShot(Boolean shot) {this.shot = shot;}
+
     public int getX() {return x;}
     public int getY() {return y;}
     public int getW() {return w;}

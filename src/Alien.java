@@ -6,7 +6,7 @@ import java.util.ArrayList;
  */
 public class Alien extends Entity{
     ArrayList<Alien> aliens;
-    Boolean shot = false;
+
 
     public Alien(Color color, int x, int y, int d, Game game, ArrayList<Alien> aliens){
         super(color, x, y, d, d, game);

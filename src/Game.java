@@ -49,10 +49,11 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
         entities = new ArrayList<Entity>();
         aliens = new ArrayList<Alien>();
         entities.add(new Player(Color.WHITE, getWidth()/2, getHeight()*3/4, 40, 40, this));
-        entities.add(new Bullet(getWidth()/2, getHeight()/2, this));
         for (int i = 0; i < 4; i++){
             for (int j = 0; j < 7; j++){
-                aliens.add(new Alien(Color.GREEN, (int) (getWidth()/5.5+getWidth()/16*(1.5*j) + 20), getHeight()/10+getHeight()/12*i, 40, this, aliens));
+                Alien temp = new Alien(Color.GREEN, (int) (getWidth()/5.5+getWidth()/16*(1.5*j) + 20), getHeight()/10+getHeight()/12*i, 40, this, aliens);
+                aliens.add(temp);
+                entities.add(temp);
             }
         }
     }
@@ -75,26 +76,40 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
                 Stats.togglePause();
                 Stats.setpReleased(false);
             }
-            if(mouseClicked){
-                mouseClicked = false;
-                System.out.println(entities.get(0).getReloaded());
-                if (entities.get(0).getReloaded() == true) {
-                    entities.get(0).reload();
-                    entities.add(new Bullet(entities.get(0).getX() + entities.get(0).getW() / 2 - Bullet.getWid() / 2, entities.get(0).getY(), this));
 
-                }
-            }
             if (!Stats.isPause()) {
                 for (Entity ent : entities) {
                     ent.move();
                 }
-                for (Alien ali : aliens) {
-                    ali.move();
+                collision();
+                if(mouseClicked){
+                    mouseClicked = false;
+                    System.out.println(entities.get(0).getReloaded());
+                    if (entities.get(0).getReloaded() == true) {
+                        entities.get(0).reload();
+                        entities.add(new Bullet(entities.get(0).getX() + entities.get(0).getW() / 2 - Bullet.getWid() / 2, entities.get(0).getY(), this));
+
+                    }
                 }
+
             }
 
         }
         repaint();
+    }
+
+    public void collision(){
+
+        for (int i = 0; i < entities.size()-1; i++){
+            for (int j = 0; j < entities.size()-1; j++){
+                if (entities.get(i) instanceof Bullet){
+                    if (entities.get(j) instanceof Alien){
+                        entities.remove(i);
+                        entities
+                    }
+                }
+            }
+        }
     }
 
 
@@ -120,9 +135,6 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
             if (entities != null) {
                 for (Entity ent : entities) {
                     ent.paint(g);
-                }
-                for (Alien ali : aliens) {
-                    ali.paint(g);
                 }
             }
         }
