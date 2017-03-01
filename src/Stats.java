@@ -3,7 +3,7 @@
  */
 public class Stats {
     public static boolean menu = true, game = false, pause = false;
-    public static boolean spacePressed = false, pPressed = false, wPressed = false, aPressed = false, sPressed = false, dPressed = false, pReleased = false;
+    public static boolean spacePressed = false, pPressed = false, pReleased = false;
 
     public static boolean isMenu() {return menu;}
     public static void setMenu(boolean menu) {Stats.menu = menu;}
@@ -28,14 +28,6 @@ public class Stats {
     public static void setSpacePressed(boolean spacePressed) {Stats.spacePressed = spacePressed;}
     public static boolean ispPressed() {return pPressed;}
     public static void setpPressed(boolean pPressed) {Stats.pPressed = pPressed;}
-    public static boolean iswPressed() {return wPressed;}
-    public static void setwPressed(boolean wPressed) {Stats.wPressed = wPressed;}
-    public static boolean isaPressed() {return aPressed;}
-    public static void setaPressed(boolean aPressed) {Stats.aPressed = aPressed;}
-    public static boolean issPressed() {return sPressed;}
-    public static void setsPressed(boolean sPressed) {Stats.sPressed = sPressed;}
-    public static boolean isdPressed() {return dPressed;}
-    public static void setdPressed(boolean dPressed) {Stats.dPressed = dPressed;}
     public static boolean ispReleased() {return pReleased;}
     public static void setpReleased(boolean pReleased) {Stats.pReleased = pReleased;}
 }

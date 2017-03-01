@@ -1,15 +1,19 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
  * Created by Jared H on 2/27/2017.
  */
-public class Game extends JPanel implements ActionListener, KeyListener{
+public class Game extends JPanel implements ActionListener, KeyListener, MouseListener{
     Timer timer;
     ArrayList<Entity> entities;
+    ArrayList<Alien> aliens;
     final int TITLE_SIZE = 64, TEXT_SIZE = 28;
+    private int mousePosX, mousePosY;
+    boolean mouseClicked = false;
 
     public Game(){
         JFrame frame = new JFrame();
@@ -22,6 +26,18 @@ public class Game extends JPanel implements ActionListener, KeyListener{
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.addKeyListener(this);
+
+
+        addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e){
+                super.mouseMoved(e);
+
+                mousePosX = e.getX();
+                mousePosY = e.getY();
+            }
+        });
+        addMouseListener(this);
     }
     public static void main(String[] args) {
         Game game = new Game();
@@ -31,11 +47,12 @@ public class Game extends JPanel implements ActionListener, KeyListener{
 
     private void init(){
         entities = new ArrayList<Entity>();
-        entities.add(new Player(Color.BLUE, getWidth()/2, getHeight()*3/4, 40, 40, this));
-
+        aliens = new ArrayList<Alien>();
+        entities.add(new Player(Color.WHITE, getWidth()/2, getHeight()*3/4, 40, 40, this));
+        entities.add(new Bullet(getWidth()/2, getHeight()/2, this));
         for (int i = 0; i < 4; i++){
             for (int j = 0; j < 7; j++){
-                entities.add(new Alien(Color.GREEN, (int) (getWidth()/5.5+getWidth()/16*(1.5*j) + 20), getHeight()/10+getHeight()/12*i, 40, this));
+                aliens.add(new Alien(Color.GREEN, (int) (getWidth()/5.5+getWidth()/16*(1.5*j) + 20), getHeight()/10+getHeight()/12*i, 40, this, aliens));
             }
         }
     }
@@ -58,9 +75,21 @@ public class Game extends JPanel implements ActionListener, KeyListener{
                 Stats.togglePause();
                 Stats.setpReleased(false);
             }
+            if(mouseClicked){
+                mouseClicked = false;
+                System.out.println(entities.get(0).getReloaded());
+                if (entities.get(0).getReloaded() == true) {
+                    entities.get(0).reload();
+                    entities.add(new Bullet(entities.get(0).getX() + entities.get(0).getW() / 2 - Bullet.getWid() / 2, entities.get(0).getY(), this));
+
+                }
+            }
             if (!Stats.isPause()) {
                 for (Entity ent : entities) {
                     ent.move();
+                }
+                for (Alien ali : aliens) {
+                    ali.move();
                 }
             }
 
@@ -71,6 +100,10 @@ public class Game extends JPanel implements ActionListener, KeyListener{
 
     public void paint(Graphics g){
         super.paint(g);
+        g.setColor(Color.BLUE);
+        for(int i = 0; i < 2; i++){
+            g.drawOval(mousePosX+4+i, mousePosY+4+i, 16-2*i, 16-2*i);
+        }
 
         if(Stats.isMenu()){
             g.setColor(Color.YELLOW);
@@ -88,6 +121,9 @@ public class Game extends JPanel implements ActionListener, KeyListener{
                 for (Entity ent : entities) {
                     ent.paint(g);
                 }
+                for (Alien ali : aliens) {
+                    ali.paint(g);
+                }
             }
         }
     }
@@ -104,11 +140,6 @@ public class Game extends JPanel implements ActionListener, KeyListener{
     public void keyTyped(KeyEvent e){}
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_SPACE){Stats.setSpacePressed(true);}
-        if(e.getKeyCode() == KeyEvent.VK_P){Stats.setpPressed(true);}
-        if(e.getKeyCode() == KeyEvent.VK_W){Stats.setwPressed(true);}
-        if(e.getKeyCode() == KeyEvent.VK_A){Stats.setaPressed(true);}
-        if(e.getKeyCode() == KeyEvent.VK_S){Stats.setsPressed(true);}
-        if(e.getKeyCode() == KeyEvent.VK_D){Stats.setdPressed(true);}
     }
     public void keyReleased(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_SPACE){Stats.setSpacePressed(false);}
@@ -118,17 +149,39 @@ public class Game extends JPanel implements ActionListener, KeyListener{
                 Stats.setpReleased(true);
             }
         }
-
-        if(e.getKeyCode() == KeyEvent.VK_W){Stats.setwPressed(false);}
-        if(e.getKeyCode() == KeyEvent.VK_A){Stats.setaPressed(false);}
-        if(e.getKeyCode() == KeyEvent.VK_S){Stats.setsPressed(false);}
-        if(e.getKeyCode() == KeyEvent.VK_D){Stats.setdPressed(false);}
     }
     
     public ArrayList<Entity> getEntities(){
         return entities;
     }
 
+    public int getMousePosX() {return mousePosX;}
+    public int getMousePosY() {return mousePosY;}
 
+    @Override
+    public void mouseClicked(MouseEvent e) {
 
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        if (Stats.isGame()) {
+            mouseClicked = true;
+        }
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        setCursor(Cursor.getDefaultCursor());
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        setCursor(getToolkit().createCustomCursor(new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), null));
+    }
 }
