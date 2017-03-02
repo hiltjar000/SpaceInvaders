@@ -4,22 +4,20 @@ import java.util.ArrayList;
 /**
  * Created by Jared H on 2/27/2017.
  */
-public class Alien extends Entity{
-    ArrayList<Alien> aliens;
+public class Alien extends Group{\
 
-
-    public Alien(Color color, int x, int y, int d, Game game, ArrayList<Alien> aliens){
+    public Alien(Color color, int x, int y, int d, Game game, int num){
         super(color, x, y, d, d, game);
-        this.aliens = aliens;
+
         dx = 5;
         dy = 0;
     }
 
     public void paint(Graphics g){
-        if (shot == false) {
-            g.setColor(color);
-            g.fillOval(x, y, w, h);
-        }
+
+        g.setColor(color);
+        g.fillOval(x, y, w, h);
+
     }
     @Override
     public void move(){

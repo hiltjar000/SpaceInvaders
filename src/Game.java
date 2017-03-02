@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class Game extends JPanel implements ActionListener, KeyListener, MouseListener{
     Timer timer;
     ArrayList<Entity> entities;
-    ArrayList<Alien> aliens;
     final int TITLE_SIZE = 64, TEXT_SIZE = 28;
     private int mousePosX, mousePosY;
     boolean mouseClicked = false;
@@ -47,15 +46,10 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 
     private void init(){
         entities = new ArrayList<Entity>();
-        aliens = new ArrayList<Alien>();
+
         entities.add(new Player(Color.WHITE, getWidth()/2, getHeight()*3/4, 40, 40, this));
-        for (int i = 0; i < 4; i++){
-            for (int j = 0; j < 7; j++){
-                Alien temp = new Alien(Color.GREEN, (int) (getWidth()/5.5+getWidth()/16*(1.5*j) + 20), getHeight()/10+getHeight()/12*i, 40, this, aliens);
-                aliens.add(temp);
-                entities.add(temp);
-            }
-        }
+
+
     }
     private void run(){
         timer = new Timer(1000/60, this);
@@ -78,19 +72,9 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
             }
 
             if (!Stats.isPause()) {
-                for (Entity ent : entities) {
-                    ent.move();
-                }
+                move();
                 collision();
-                if(mouseClicked){
-                    mouseClicked = false;
-                    System.out.println(entities.get(0).getReloaded());
-                    if (entities.get(0).getReloaded() == true) {
-                        entities.get(0).reload();
-                        entities.add(new Bullet(entities.get(0).getX() + entities.get(0).getW() / 2 - Bullet.getWid() / 2, entities.get(0).getY(), this));
-
-                    }
-                }
+                fire();
 
             }
 
@@ -98,18 +82,26 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
         repaint();
     }
 
-    public void collision(){
-
-        for (int i = 0; i < entities.size()-1; i++){
-            for (int j = 0; j < entities.size()-1; j++){
-                if (entities.get(i) instanceof Bullet){
-                    if (entities.get(j) instanceof Alien){
-                        entities.remove(i);
-                        entities
-                    }
-                }
+    public void fire(){
+        if(mouseClicked){
+            mouseClicked = false;
+            if (entities.get(0).getReloaded() == true) {
+                entities.get(0).reload();
+                entities.add(new Bullet(entities.get(0).getX() + entities.get(0).getW() / 2 - Bullet.getWid() / 2, entities.get(0).getY(), this));
             }
         }
+    }
+
+    public void move(){
+        for (int i = 0; i < entities.size(); i++) {
+            entities.get(i).move();
+        }
+    }
+
+    public void collision(){
+
+
+
     }
 
 
