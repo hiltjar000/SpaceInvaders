@@ -46,8 +46,8 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 
     private void init(){
         entities = new ArrayList<Entity>();
-
         entities.add(new Player(Color.WHITE, getWidth()/2, getHeight()*3/4, 40, 40, this));
+        entities.add(new Group(Color.GREEN, Alien.getD(), this, 20));
 
 
     }
