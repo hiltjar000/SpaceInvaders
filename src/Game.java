@@ -47,7 +47,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
     private void init(){
         entities = new ArrayList<Entity>();
         entities.add(new Player(Color.WHITE, getWidth()/2, getHeight()*3/4, 40, 40, this));
-        entities.add(new Group(Color.GREEN, Alien.getD(), this, 20));
+        entities.add(new Group(Color.GREEN, Alien.getD(), this, 16));
 
 
     }
@@ -99,7 +99,9 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
     }
 
     public void collision(){
+        for (Entity ent: entities){
 
+        }
 
 
     }
@@ -118,7 +120,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
             printSimpleString("Space Invaders", 0, getWidth()/2, getHeight()/3, g);
             g.setColor(Color.WHITE);
             g.setFont(new Font("Times New Roman", Font.BOLD, TEXT_SIZE));
-            printSimpleString("Press 'space' to fire", 0, getWidth()/2, getHeight()/3+TITLE_SIZE*3/4, g);
+            printSimpleString("Click to fire", 0, getWidth()/2, getHeight()/3+TITLE_SIZE*3/4, g);
             g.setColor(Color.PINK);
             printSimpleString("Press 'space' to start", 0, getWidth()/2, getHeight()/3 + TITLE_SIZE*3/2, g);
         }

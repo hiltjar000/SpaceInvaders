@@ -5,10 +5,11 @@ import java.util.ArrayList;
  * Created by Jared H on 2/27/2017.
  */
 public class Alien extends Entity{
-    private static final int d = 20;
+    private static final int d = 40;
 
     public Alien(Color color, int x, int y,  Game game){
         super(color, x, y, d, d, game);
+        dx = 5;
 
     }
 
