@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Game extends JPanel implements ActionListener, KeyListener, MouseListener{
     Timer timer;
     ArrayList<Entity> entities;
+    Group aliens;
     final int TITLE_SIZE = 64, TEXT_SIZE = 28;
     private int mousePosX, mousePosY;
     boolean mouseClicked = false;
@@ -46,9 +47,9 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 
     private void init(){
         entities = new ArrayList<Entity>();
+        aliens = new Group(Color.GREEN, Alien.getD(), this, 16);
         entities.add(new Player(Color.WHITE, getWidth()/2, getHeight()*3/4, 40, 40, this));
-        entities.add(new Group(Color.GREEN, Alien.getD(), this, 16));
-
+        entities.add(aliens);
 
     }
     private void run(){
@@ -57,11 +58,12 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (Stats.isMenu()){
+        if (Stats.isMenu() || Stats.isWin()){
             if (Stats.isSpacePressed()){
                 init();
                 Stats.setGame(true);
                 Stats.setMenu(false);
+                Stats.setWin(false);
             }
         }
 
@@ -83,11 +85,13 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
     }
 
     public void fire(){
-        if(mouseClicked){
-            mouseClicked = false;
-            if (entities.get(0).getReloaded() == true) {
-                entities.get(0).reload();
-                entities.add(new Bullet(entities.get(0).getX() + entities.get(0).getW() / 2 - Bullet.getWid() / 2, entities.get(0).getY(), this));
+        if (Stats.isGame()) {
+            if (mouseClicked) {
+                mouseClicked = false;
+                if (entities.get(0).getReloaded() == true) {
+                    entities.get(0).reload();
+                    entities.add(new Bullet(entities.get(0).getX() + entities.get(0).getW() / 2 - Bullet.getWid() / 2, entities.get(0).getY(), this));
+                }
             }
         }
     }
@@ -99,10 +103,27 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
     }
 
     public void collision(){
-        for (Entity ent: entities){
 
+        if (entities.size() > 2){
+
+            for (int i = 2; i < entities.size()-1; i++) {
+                if (entities.get(i) instanceof Bullet) {
+                    for (int j = 0; j < aliens.getAliens().size(); j++) {
+                        if (entities.get(i).getBounds().intersects(aliens.getAliens().get(j).getBounds())){
+                            entities.remove(i);
+                            aliens.getAliens().remove(j);
+                            j--;
+                        }
+                    }
+                }
+                else{
+                    break;
+                }
+            }
         }
-
+        if (aliens.getAliens().size() == 0){
+            win();
+        }
 
     }
 
@@ -123,15 +144,42 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
             printSimpleString("Click to fire", 0, getWidth()/2, getHeight()/3+TITLE_SIZE*3/4, g);
             g.setColor(Color.PINK);
             printSimpleString("Press 'space' to start", 0, getWidth()/2, getHeight()/3 + TITLE_SIZE*3/2, g);
+            g.setColor(Color.GREEN);
+            printSimpleString("Press 'P' to pause", 0, getWidth()/2, getHeight()/3 + (int)(TITLE_SIZE*9/4), g);
         }
 
         if (Stats.isGame()) {
+            if(Stats.isPause()){
+                g.setColor(Color.YELLOW);
+                g.setFont(new Font("Times New Roman", Font.BOLD, TEXT_SIZE));
+                printSimpleString("Press 'P' to unpause", 0, getWidth()/2, getHeight()/10, g);
+            }
+            else{
+                g.setColor(Color.YELLOW);
+                g.setFont(new Font("Times New Roman", Font.BOLD, TEXT_SIZE));
+                printSimpleString("Press 'P' to pause", 0, getWidth()/2, getHeight()/10, g);
+            }
             if (entities != null) {
                 for (Entity ent : entities) {
                     ent.paint(g);
                 }
             }
         }
+
+        if (Stats.isWin()){
+            g.setColor(Color.CYAN);
+            g.setFont(new Font("Times New Roman", Font.BOLD, TITLE_SIZE));
+            printSimpleString("YOU WIN!!!", 0, getWidth()/2, getHeight()/2, g);
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Times New Roman", Font.BOLD, TEXT_SIZE));
+            printSimpleString("Press 'space' to play again", 0, getWidth()/2, getHeight()/2 + TITLE_SIZE, g);
+        }
+    }
+    public void win(){
+        Stats.setWin(true);
+        Stats.setGame(false);
+        entities = null;
+        aliens = null;
     }
 
     private void printSimpleString(String s, int width, int XPos, int YPos, Graphics g2d){

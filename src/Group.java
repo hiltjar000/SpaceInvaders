@@ -13,6 +13,7 @@ public class Group extends Entity{
         add(num);
 
         dx = 5;
+        dy = 6;
 
     }
 
@@ -31,8 +32,7 @@ public class Group extends Entity{
 
     @Override
     public void paint(Graphics g) {
-        g.setColor(Color.BLUE);
-        g.fillRect(x, y, w, h);
+
         for (Alien ali: aliens)
             ali.paint(g);
     }
@@ -49,9 +49,9 @@ public class Group extends Entity{
             dx *=-1;
             for (Alien ali: aliens) {
                 ali.setDx(ali.getDx() * -1);
-                ali.setY(ali.getY() + 6);
+                ali.setY(ali.getY() + dy);
             }
-            y+=6;
+            y+=dy;
         }
 
         for (Alien ali: aliens) {
@@ -61,5 +61,7 @@ public class Group extends Entity{
         x+=dx;
     }
 
-
+    public ArrayList<Alien> getAliens() {
+        return aliens;
+    }
 }

@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * Created by Jared H on 2/27/2017.
@@ -33,8 +34,6 @@ public abstract class Entity implements ActionListener{
         reloaded = false;
         reload.start();
     }
-
-
 
     public void actionPerformed(ActionEvent e){
         reloaded = true;
