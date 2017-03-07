@@ -12,7 +12,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
     ArrayList<Entity> entities;
     Group aliens;
     final int TITLE_SIZE = 64, TEXT_SIZE = 28;
-    private int mousePosX, mousePosY;
+    private int mousePosX, mousePosY, lives;
     boolean mouseClicked = false;
 
     public Game(){
@@ -53,6 +53,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 
     }
     private void run(){
+        lives = 3;
         timer = new Timer(1000/60, this);
         timer.start();
     }
@@ -139,13 +140,15 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
             g.setColor(Color.YELLOW);
             g.setFont(new Font("Times New Roman", Font.BOLD, TITLE_SIZE));
             printSimpleString("Space Invaders", 0, getWidth()/2, getHeight()/3, g);
-            g.setColor(Color.WHITE);
             g.setFont(new Font("Times New Roman", Font.BOLD, TEXT_SIZE));
-            printSimpleString("Click to fire", 0, getWidth()/2, getHeight()/3+TITLE_SIZE*3/4, g);
+            g.setColor(Color.CYAN);
+            printSimpleString("You have three lives.", 0, getWidth()/2, getHeight()/3+TITLE_SIZE*3/4, g);
+            g.setColor(Color.WHITE);
+            printSimpleString("Click to fire, kill all the aliens", 0, getWidth()/2, getHeight()/3+TITLE_SIZE*3/2, g);
             g.setColor(Color.PINK);
-            printSimpleString("Press 'space' to start", 0, getWidth()/2, getHeight()/3 + TITLE_SIZE*3/2, g);
+            printSimpleString("Press 'space' to start", 0, getWidth()/2, getHeight()/3 + TITLE_SIZE*9/4, g);
             g.setColor(Color.GREEN);
-            printSimpleString("Press 'P' to pause", 0, getWidth()/2, getHeight()/3 + (int)(TITLE_SIZE*9/4), g);
+            printSimpleString("Press 'P' to pause", 0, getWidth()/2, getHeight()/3 + (int)(TITLE_SIZE*12/4), g);
         }
 
         if (Stats.isGame()) {
@@ -159,6 +162,10 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
                 g.setFont(new Font("Times New Roman", Font.BOLD, TEXT_SIZE));
                 printSimpleString("Press 'P' to pause", 0, getWidth()/2, getHeight()/10, g);
             }
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Times New Roman", Font.BOLD, TEXT_SIZE));
+            printSimpleString("Lives: " + lives, 0, getWidth()/14, TEXT_SIZE, g);
+
             if (entities != null) {
                 for (Entity ent : entities) {
                     ent.paint(g);
