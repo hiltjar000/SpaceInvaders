@@ -47,7 +47,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 
     private void init(){
         entities = new ArrayList<Entity>();
-        aliens = new Group(Color.GREEN, Alien.getD(), this, 16);
+        aliens = new Group(Color.GREEN, Alien.getD(), this, 20);
         entities.add(new Player(Color.WHITE, getWidth()/2, getHeight()*3/4, 40, 40, this));
         entities.add(aliens);
 
@@ -107,7 +107,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 
         if (entities.size() > 2){
 
-            for (int i = 2; i < entities.size()-1; i++) {
+            for (int i = 0; i < entities.size()-1; i++) {
                 if (entities.get(i) instanceof Bullet) {
                     for (int j = 0; j < aliens.getAliens().size(); j++) {
                         if (entities.get(i).getBounds().intersects(aliens.getAliens().get(j).getBounds())){
@@ -117,8 +117,13 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
                         }
                     }
                 }
-                else{
-                    break;
+                if(entities.get(i) instanceof Player){
+                    for (int j = 0; j < aliens.getAliens().size(); j++) {
+                        if (entities.get(i).getBounds().intersects(aliens.getAliens().get(j).getBounds())){
+                            lives--;
+                            reset();
+                        }
+                    }
                 }
             }
         }
@@ -126,6 +131,13 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
             win();
         }
 
+    }
+
+    public void reset(){
+        entities = new ArrayList<Entity>();
+        aliens = new Group(Color.GREEN, Alien.getD(), this, 16);
+        entities.add(new Player(Color.WHITE, getWidth()/2, getHeight()*3/4, 40, 40, this));
+        entities.add(aliens);
     }
 
 
