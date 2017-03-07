@@ -12,8 +12,8 @@ public class Group extends Entity{
         aliens = new ArrayList<Alien>();
         add(num);
 
-        dx = 5;
-        dy = 6;
+        dx = aliens.get(0).getDx();
+        dy = 20;
 
     }
 
@@ -32,7 +32,8 @@ public class Group extends Entity{
 
     @Override
     public void paint(Graphics g) {
-
+        //g.setColor(Color.BLUE);
+        //g.fillRect(x, y, w, h);
         for (Alien ali: aliens)
             ali.paint(g);
     }
@@ -61,7 +62,15 @@ public class Group extends Entity{
         x+=dx;
     }
 
-    public ArrayList<Alien> getAliens() {
-        return aliens;
+
+    public Alien get(int i){
+        return aliens.get(i);
+    }
+
+    public void remove(int i){
+        aliens.remove(i);
+    }
+    public int size(){
+        return aliens.size();
     }
 }

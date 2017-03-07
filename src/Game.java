@@ -14,6 +14,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
     final int TITLE_SIZE = 64, TEXT_SIZE = 28;
     private int mousePosX, mousePosY, lives;
     boolean mouseClicked = false;
+    private int numAliens = 20;
 
     public Game(){
         JFrame frame = new JFrame();
@@ -46,8 +47,9 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
     }
 
     private void init(){
+        lives = 3;
         entities = new ArrayList<Entity>();
-        aliens = new Group(Color.GREEN, Alien.getD(), this, 20);
+        aliens = new Group(Color.GREEN, Alien.getD(), this, numAliens);
         entities.add(new Player(Color.WHITE, getWidth()/2, getHeight()*3/4, 40, 40, this));
         entities.add(aliens);
 
@@ -59,16 +61,23 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (Stats.isMenu() || Stats.isWin()){
+        if (Stats.isMenu() || Stats.isWin() || Stats.isLose()){
             if (Stats.isSpacePressed()){
                 init();
+                Stats.setLose(false);
+
                 Stats.setGame(true);
                 Stats.setMenu(false);
                 Stats.setWin(false);
             }
         }
 
-        if(Stats.isGame()) {
+        else if(Stats.isGame()) {
+            if (lives < 1){
+                lose();
+                return;
+            }
+
             if (Stats.ispReleased()) {
                 Stats.togglePause();
                 Stats.setpReleased(false);
@@ -83,6 +92,14 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 
         }
         repaint();
+    }
+
+    public void lose(){
+        Stats.setLose(true);
+        Stats.setGame(false);
+        entities = null;
+        aliens = null;
+
     }
 
     public void fire(){
@@ -105,29 +122,28 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 
     public void collision(){
 
-        if (entities.size() > 2){
 
-            for (int i = 0; i < entities.size()-1; i++) {
+            for (int i = 0; i < entities.size(); i++) {
                 if (entities.get(i) instanceof Bullet) {
-                    for (int j = 0; j < aliens.getAliens().size(); j++) {
-                        if (entities.get(i).getBounds().intersects(aliens.getAliens().get(j).getBounds())){
+                    for (int j = 0; j < aliens.size(); j++) {
+                        if (entities.get(i).getBounds().intersects(aliens.get(j).getBounds())){
                             entities.remove(i);
-                            aliens.getAliens().remove(j);
-                            j--;
+                            aliens.remove(j);
+                            break;
                         }
                     }
                 }
-                if(entities.get(i) instanceof Player){
-                    for (int j = 0; j < aliens.getAliens().size(); j++) {
-                        if (entities.get(i).getBounds().intersects(aliens.getAliens().get(j).getBounds())){
+                else if(entities.get(i) instanceof Player){
+                    for (int j = 0; j < aliens.size(); j++) {
+                        if (entities.get(i).getBounds().intersects(aliens.get(j).getBounds())){
                             lives--;
                             reset();
                         }
                     }
                 }
             }
-        }
-        if (aliens.getAliens().size() == 0){
+
+        if (aliens.size() == 0){
             win();
         }
 
@@ -135,7 +151,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 
     public void reset(){
         entities = new ArrayList<Entity>();
-        aliens = new Group(Color.GREEN, Alien.getD(), this, 16);
+        aliens = new Group(Color.GREEN, Alien.getD(), this, numAliens);
         entities.add(new Player(Color.WHITE, getWidth()/2, getHeight()*3/4, 40, 40, this));
         entities.add(aliens);
     }
@@ -189,6 +205,15 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
             g.setColor(Color.CYAN);
             g.setFont(new Font("Times New Roman", Font.BOLD, TITLE_SIZE));
             printSimpleString("YOU WIN!!!", 0, getWidth()/2, getHeight()/2, g);
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Times New Roman", Font.BOLD, TEXT_SIZE));
+            printSimpleString("Press 'space' to play again", 0, getWidth()/2, getHeight()/2 + TITLE_SIZE, g);
+        }
+
+        if (Stats.isLose()){
+            g.setColor(Color.RED);
+            g.setFont(new Font("Times New Roman", Font.BOLD, TITLE_SIZE));
+            printSimpleString("YOU LOSE!!!", 0, getWidth()/2, getHeight()/2, g);
             g.setColor(Color.WHITE);
             g.setFont(new Font("Times New Roman", Font.BOLD, TEXT_SIZE));
             printSimpleString("Press 'space' to play again", 0, getWidth()/2, getHeight()/2 + TITLE_SIZE, g);

@@ -25,10 +25,10 @@ public class Player extends Entity{
         double nextBottom = y + h+ dy;
 
         if(game.getMousePosX() > getX()+2){
-            dx = 4;
+            dx = speed;
         }
         else if(game.getMousePosX() < getX()-2){
-            dx = -4;
+            dx = -speed;
         }
         else{ dx = 0;}
 

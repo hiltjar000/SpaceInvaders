@@ -2,7 +2,7 @@
  * Created by Jared H on 2/27/2017.
  */
 public class Stats {
-    public static boolean menu = true, game = false, pause = false, win = false;
+    public static boolean menu = true, game = false, pause = false, win = false, lose = false;
     public static boolean spacePressed = false, pPressed = false, pReleased = false;
 
     public static boolean isMenu() {return menu;}
@@ -24,6 +24,14 @@ public class Stats {
         else{pause = true;}
     }
 
+    public static boolean isLose() {
+        return lose;
+    }
+
+    public static void setLose(boolean lose) {
+        Stats.lose = lose;
+    }
+
     public static boolean isWin() {
         return win;
     }
@@ -37,4 +45,5 @@ public class Stats {
     public static void setpPressed(boolean pPressed) {Stats.pPressed = pPressed;}
     public static boolean ispReleased() {return pReleased;}
     public static void setpReleased(boolean pReleased) {Stats.pReleased = pReleased;}
+
 }
