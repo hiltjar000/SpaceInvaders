@@ -1,12 +1,16 @@
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
  * Created by hiltjar000 on 3/2/2017.
  */
-public class Group extends Entity{
+public class Group extends Entity implements ActionListener{
 
     ArrayList<Alien> aliens;
+
+    Timer shoot = new Timer(1+(int)(Math.random()*7000), this);
     public Group(Color color, int d, Game game, int num){
         super(color, game.getWidth()/4, game.getHeight()/8, game.getWidth()/2, game.getHeight()/3, game);
         aliens = new ArrayList<Alien>();

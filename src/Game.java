@@ -111,8 +111,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 
     public void fire(){
         if (Stats.isGame()) {
-            if (Stats.isMouseClicked()) {
-                Stats.setMouseClicked(false);
+            if (Stats.isMousePressed()) {
                 if (entities.get(0).getReloaded() == true) {
                     entities.get(0).reload();
                     entities.add(new Bullet(entities.get(0).getX() + entities.get(0).getW() / 2 - Bullet.getWid() / 2, entities.get(0).getY(), this));
@@ -281,9 +280,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
     @Override
     public void mouseReleased(MouseEvent e) {
         Stats.setMousePressed(false);
-        if (Stats.isGame()) {
-            Stats.setMouseClicked(true);
-        }
+
     }
 
     @Override

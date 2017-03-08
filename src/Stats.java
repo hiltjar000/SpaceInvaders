@@ -46,14 +46,6 @@ public class Stats {
     public static boolean ispReleased() {return pReleased;}
     public static void setpReleased(boolean pReleased) {Stats.pReleased = pReleased;}
 
-    public static boolean isMouseClicked() {
-        return mouseClicked;
-    }
-
-    public static void setMouseClicked(boolean mouseClicked) {
-        Stats.mouseClicked = mouseClicked;
-    }
-
     public static boolean isMousePressed() {
         return mousePressed;
     }
