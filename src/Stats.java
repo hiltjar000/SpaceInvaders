@@ -2,8 +2,8 @@
  * Created by Jared H on 2/27/2017.
  */
 public class Stats {
-    public static boolean menu = true, game = false, pause = false, win = false, lose = false;
-    public static boolean spacePressed = false, pPressed = false, pReleased = false;
+    private static boolean menu = true, game = false, pause = false, win = false, lose = false;
+    private static boolean spacePressed = false, pPressed = false, pReleased = false, mouseClicked = false, mousePressed = false;
 
     public static boolean isMenu() {return menu;}
     public static void setMenu(boolean menu) {Stats.menu = menu;}
@@ -46,4 +46,19 @@ public class Stats {
     public static boolean ispReleased() {return pReleased;}
     public static void setpReleased(boolean pReleased) {Stats.pReleased = pReleased;}
 
+    public static boolean isMouseClicked() {
+        return mouseClicked;
+    }
+
+    public static void setMouseClicked(boolean mouseClicked) {
+        Stats.mouseClicked = mouseClicked;
+    }
+
+    public static boolean isMousePressed() {
+        return mousePressed;
+    }
+
+    public static void setMousePressed(boolean mousePressed) {
+        Stats.mousePressed = mousePressed;
+    }
 }

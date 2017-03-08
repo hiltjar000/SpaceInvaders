@@ -13,7 +13,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
     Group aliens;
     final int TITLE_SIZE = 64, TEXT_SIZE = 28;
     private int mousePosX, mousePosY, lives;
-    boolean mouseClicked = false;
+
     private int numAliens = 20;
 
     public Game(){
@@ -37,6 +37,13 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
                 mousePosX = e.getX();
                 mousePosY = e.getY();
             }
+            @Override
+            public void mouseDragged(MouseEvent e){
+                super.mouseDragged(e);
+                mousePosX = e.getX();
+                mousePosY = e.getY();
+            }
+
         });
         addMouseListener(this);
     }
@@ -104,8 +111,8 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 
     public void fire(){
         if (Stats.isGame()) {
-            if (mouseClicked) {
-                mouseClicked = false;
+            if (Stats.isMouseClicked()) {
+                Stats.setMouseClicked(false);
                 if (entities.get(0).getReloaded() == true) {
                     entities.get(0).reload();
                     entities.add(new Bullet(entities.get(0).getX() + entities.get(0).getW() / 2 - Bullet.getWid() / 2, entities.get(0).getY(), this));
@@ -162,6 +169,11 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
         g.setColor(Color.BLUE);
         for(int i = 0; i < 2; i++){
             g.drawOval(mousePosX+4+i, mousePosY+4+i, 16-2*i, 16-2*i);
+        }
+        if(Stats.isMousePressed()) {
+            for (int i = 0; i < 2; i++) {
+                g.drawOval(mousePosX + 6 + i, mousePosY + 6 + i, 12 - 2 * i, 12 - 2 * i);
+            }
         }
 
         if(Stats.isMenu()){
@@ -248,7 +260,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
             }
         }
     }
-    
+
     public ArrayList<Entity> getEntities(){
         return entities;
     }
@@ -263,13 +275,14 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        Stats.setMousePressed(true);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        Stats.setMousePressed(false);
         if (Stats.isGame()) {
-            mouseClicked = true;
+            Stats.setMouseClicked(true);
         }
     }
 
