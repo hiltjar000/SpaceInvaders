@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -10,7 +11,7 @@ public class Group extends Entity implements ActionListener{
 
     ArrayList<Alien> aliens;
 
-    Timer shoot = new Timer(1+(int)(Math.random()*7000), this);
+    Timer shoot = new Timer(0, this);
     public Group(Color color, int d, Game game, int num){
         super(color, game.getWidth()/4, game.getHeight()/8, game.getWidth()/2, game.getHeight()/3, game);
         aliens = new ArrayList<Alien>();
@@ -76,5 +77,13 @@ public class Group extends Entity implements ActionListener{
     }
     public int size(){
         return aliens.size();
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        shoot = new Timer(1+(int)(Math.random()*5000), this);
+        int index = (int)(Math.random()*(aliens.size()-1));
+        Alien alien = aliens.get(index);
+        game.getEntities().add(new Bullet(alien.getX()+alien.getW()/2, alien.getY()+alien.getH()/2, game, Math.PI));
+
     }
 }
