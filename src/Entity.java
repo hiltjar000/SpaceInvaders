@@ -14,6 +14,7 @@ public abstract class Entity implements ActionListener{
     protected int x, y, w, h, dx, dy;
     Timer reload = new Timer(650, this);;
     protected Boolean reloaded;
+    protected Entity shooter;
 
     public Entity(Color color, int x, int y, int w, int h, Game game) {
         this.game = game;
@@ -60,4 +61,5 @@ public abstract class Entity implements ActionListener{
         return reloaded;
     }
     public Color getColor() {return color;}
+    public Entity getShooter() {return shooter;}
 }

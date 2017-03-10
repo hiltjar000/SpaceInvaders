@@ -1,3 +1,6 @@
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
+import sun.security.jca.GetInstance;
+
 import java.awt.*;
 
 /**
@@ -6,14 +9,17 @@ import java.awt.*;
 public class Bullet extends Entity{
     public static final int wid = 15, height = 45;
     public double angle;
-    public Bullet( int x, int y, Game game) {
+
+    public Bullet(int x, int y, Game game, Entity ent) {
         super(Color.ORANGE, x, y, wid, height, game);
+        shooter = ent;
         angle = 0;
         dx = 0;
         dy = -4;
     }
-    public Bullet( int x, int y, Game game, double angle) {
+    public Bullet( int x, int y, Game game, double angle, Entity ent) {
         super(Color.ORANGE, x, y, wid, height, game);
+        shooter = ent;
         this.angle = angle;
         dx = 0;
         dy = 4;

@@ -114,7 +114,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
             if (Stats.isMousePressed()) {
                 if (entities.get(0).getReloaded() == true) {
                     entities.get(0).reload();
-                    entities.add(new Bullet(entities.get(0).getX() + entities.get(0).getW() / 2 - Bullet.getWid() / 2, entities.get(0).getY(), this));
+                    entities.add(new Bullet(entities.get(0).getX() + entities.get(0).getW() / 2 - Bullet.getWid() / 2, entities.get(0).getY(), this, entities.get(0)));
                 }
             }
         }
@@ -131,11 +131,20 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 
             for (int i = 0; i < entities.size(); i++) {
                 if (entities.get(i) instanceof Bullet) {
-                    for (int j = 0; j < aliens.size(); j++) {
-                        if (entities.get(i).getBounds().intersects(aliens.get(j).getBounds())){
+                    if (entities.get(i).getShooter() instanceof Player){
+                        for (int j = 0; j < aliens.size(); j++) {
+                            if (entities.get(i).getBounds().intersects(aliens.get(j).getBounds())) {
+                                entities.remove(i);
+                                aliens.remove(j);
+                                return;
+                            }
+                        }
+                    }
+                    else if (entities.get(i).getShooter() instanceof Alien){
+                        if (entities.get(i).getBounds().intersects(entities.get(0).getBounds())) {
                             entities.remove(i);
-                            aliens.remove(j);
-                            break;
+                            lives--;
+                            reset();
                         }
                     }
                 }
@@ -156,6 +165,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
     }
 
     public void reset(){
+        aliens.stopTimer();
         entities = new ArrayList<Entity>();
         aliens = new Group(Color.GREEN, Alien.getD(), this, numAliens);
         entities.add(new Player(Color.WHITE, getWidth()/2, getHeight()*3/4, 40, 40, this));
