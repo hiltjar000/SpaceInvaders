@@ -241,13 +241,14 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
         }
     }
     public void win(){
+        aliens.stopTimer();
         Stats.setWin(true);
         Stats.setGame(false);
         entities = null;
         aliens = null;
     }
 
-    private void printSimpleString(String s, int width, int XPos, int YPos, Graphics g2d){
+    public void printSimpleString(String s, int width, int XPos, int YPos, Graphics g2d){
 
         int stringLen = (int)g2d.getFontMetrics().getStringBounds(s, g2d).getWidth();
         int start = width/2 - stringLen/2;

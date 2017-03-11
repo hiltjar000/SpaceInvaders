@@ -1,8 +1,9 @@
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Created by hiltjar000 on 3/2/2017.
@@ -10,6 +11,8 @@ import java.util.ArrayList;
 public class Group extends Entity implements ActionListener{
 
     ArrayList<Alien> aliens;
+    Boolean shot = false;
+    int index;
 
     Timer shoot = new Timer(3000+(int)(Math.random()*4000), this);
     public Group(Color color, int d, Game game, int num){
@@ -39,6 +42,13 @@ public class Group extends Entity implements ActionListener{
     public void paint(Graphics g) {
         //g.setColor(Color.BLUE);
         //g.fillRect(x, y, w, h);
+        if (shot){
+            Graphics2D g2d = (Graphics2D) g.create();
+            g2d.rotate(-Math.PI/4, aliens.get(index).getX()+aliens.get(index).getW()*3/2+5, aliens.get(index).getY()-10);
+            g2d.setFont(new Font("Times New Roman", Font.BOLD, 24));
+            g2d.setColor(Color.RED);
+            game.printSimpleString("KILL", 0, aliens.get(index).getX()+aliens.get(index).getW()*3/2+5, aliens.get(index).getY()-10, g2d);
+        }
         for (Alien ali: aliens)
             ali.paint(g);
     }
@@ -74,6 +84,12 @@ public class Group extends Entity implements ActionListener{
 
     public void remove(int i){
         aliens.remove(i);
+        if(i < index){
+            index--;
+        }
+        else if (i == index){
+            shot = false;
+        }
     }
     public int size(){
         return aliens.size();
@@ -82,9 +98,10 @@ public class Group extends Entity implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         shoot.stop();
         shoot = new Timer(3000+(int)(Math.random()*4000), this);
-        int index = (int)(Math.random()*(aliens.size()-1));
+        index = (int)(Math.random()*(aliens.size()-1));
         Alien alien = aliens.get(index);
         game.getEntities().add(new Bullet(alien.getX() + alien.getW() / 2, alien.getY() + alien.getH() / 2, game, Math.PI, alien));
+        shot = true;
         shoot.start();
 
     }
