@@ -9,7 +9,7 @@ public class Alien extends Entity{
 
     public Alien(Color color, int x, int y,  Game game){
         super(color, x, y, d, d, game);
-        dx = 4;
+        dx = 5;
 
     }
 

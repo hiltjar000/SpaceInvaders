@@ -12,7 +12,7 @@ public abstract class Entity implements ActionListener{
     protected Game game;
     protected Color color;
     protected int x, y, w, h, dx, dy;
-    Timer reload = new Timer(650, this);;
+    Timer reload = new Timer(400, this);;
     protected Boolean reloaded;
     protected Entity shooter;
 
