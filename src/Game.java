@@ -87,6 +87,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 
             if (Stats.ispReleased()) {
                 Stats.togglePause();
+                aliens.toggleShoot();
                 Stats.setpReleased(false);
             }
 

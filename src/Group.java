@@ -13,8 +13,10 @@ public class Group extends Entity implements ActionListener{
     ArrayList<Alien> aliens;
     Boolean shot = false;
     int index;
+    int delay = 2000+(int)(Math.random()*3000);
+    Timer shoot = new Timer(delay, this);
+    long shotTime;
 
-    Timer shoot = new Timer(3000+(int)(Math.random()*4000), this);
     public Group(Color color, int d, Game game, int num){
         super(color, game.getWidth()/4, game.getHeight()/8, game.getWidth()/2, game.getHeight()/3, game);
         aliens = new ArrayList<Alien>();
@@ -22,6 +24,7 @@ public class Group extends Entity implements ActionListener{
 
         dx = aliens.get(0).getDx();
         dy = 10;
+        shotTime = System.currentTimeMillis();
         shoot.start();
     }
 
@@ -96,17 +99,37 @@ public class Group extends Entity implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent e) {
+        shoot();
+
+    }
+    public void shoot(){
         shoot.stop();
-        shoot = new Timer(3000+(int)(Math.random()*4000), this);
+        delay = 2000+(int)(Math.random()*3000);
+        shoot = new Timer(delay, this);
         index = (int)(Math.random()*(aliens.size()-1));
         Alien alien = aliens.get(index);
         game.getEntities().add(new Bullet(alien.getX() + alien.getW() / 2, alien.getY() + alien.getH() / 2, game, Math.PI, alien));
         shot = true;
+        shotTime = System.currentTimeMillis();
         shoot.start();
-
     }
 
     public void stopTimer(){
         shoot.stop();
+    }
+    public void toggleShoot(){
+        if(shoot.isRunning()) {
+            shoot.stop();
+            if (delay-(int)(System.currentTimeMillis()-shotTime) > 0){
+                shoot.setDelay(delay-(int)(System.currentTimeMillis()-shotTime));
+            }
+            else{
+                shoot();
+            }
+        }
+        else{
+
+            shoot.start();
+        }
     }
 }
